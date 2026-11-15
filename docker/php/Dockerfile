@@ -2,11 +2,13 @@
 FROM php:8.5-apache
 
 ARG MONGODB_EXT_VERSION=2.5.7
+ARG IMAGICK_EXT_VERSION=3.8.1
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends git unzip libssl-dev libzip-dev libtidy-dev \
+ && apt-get install -y --no-install-recommends git unzip libssl-dev libzip-dev libtidy-dev libmagickwand-dev \
  && pecl install mongodb-${MONGODB_EXT_VERSION} \
- && docker-php-ext-enable mongodb \
+ && pecl install imagick-${IMAGICK_EXT_VERSION} \
+ && docker-php-ext-enable mongodb imagick \
  && docker-php-ext-install zip tidy \
  && a2enmod rewrite headers \
  && rm -rf /var/lib/apt/lists/* /tmp/pear

@@ -6,8 +6,8 @@ if [ ! -f vendor/autoload.php ]; then
   composer install --no-interaction --prefer-dist
 fi
 
-# Directorios de datos en ficheros (permisos, credenciales, binarios subidos)
-mkdir -p data/structures data/contents data/auth_permanent_login
-chown -R www-data:www-data data/contents data/auth_permanent_login 2>/dev/null || true
+# Único directorio de datos en ficheros: binarios subidos (el resto está en MongoDB)
+mkdir -p data/contents
+chown www-data:www-data data/contents 2>/dev/null || true
 
 exec docker-php-entrypoint "$@"
