@@ -48,7 +48,7 @@ switch ($action) {
 					if ($key === $modifiedEnumerated::EMPTY_ID && $elements[$key]['id'] === '') {
 						continue;
 					}
-					$saveItems[$elements[$key]['id']] = $elements[$key]['description'];
+					$saveItems[$elements[$key]['id']] = $elements[$key]['description'] ?? null;
 				}
 			}
 			$modifiedEnumerated->setItems($saveItems);

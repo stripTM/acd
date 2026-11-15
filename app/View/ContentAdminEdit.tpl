@@ -57,7 +57,7 @@
 					$restrictedStructures = '
 						<div class="restricted-structures-wrap">
 							<label for="field_'.$n.'_restrictedStructures">Restrict to:&nbsp;</label>
-							<select name="field['.$n.'][restrictedStructures]" id="field_'.$n.'_restrictedStructures" multiple="multiple" class="field select">'.
+							<select name="field['.$n.'][restrictedStructures][]" id="field_'.$n.'_restrictedStructures" multiple="multiple" class="field select">'.
 										$optionsRestristedStructures.'
 									</select>
 						</div>';

@@ -92,7 +92,7 @@ class User
                 return 'Users';
                 break;
             case $this::VIEW_DETAIL:
-                return 'User ' . $this->getContentUser()->getId();
+                return 'User ' . $this->getContentUser()?->getId();
                 break;
             case $this::VIEW_DETAIL_NEW:
                 return 'New user';
@@ -113,7 +113,7 @@ class User
                 $ou->setUserList($this->getContentUser());
                 break;
             case $this::VIEW_DETAIL:
-                if ($this->getContentUser()->getId()) {
+                if ($this->getContentUser() && $this->getContentUser()->getId()) {
                     $ou = new UserDetail();
                     $ou->setUserElement($this->getContentUser());
                     $ou->setAuthPermanentList($this->getContentAuthPermanent());

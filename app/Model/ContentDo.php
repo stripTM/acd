@@ -21,7 +21,7 @@ class ContentDo
 	private $saveTime;
 	private $tags;
 	private $profile;
-	//private $data; /* Array key/value of variable fields */
+	private $data; /* Array key/value of variable fields */
 	private $fields;
 	private $parent; /* ContentDo Relation in complex structures */
 	private $countParents; /* Number of parent, used in content editor for info */
@@ -88,7 +88,7 @@ class ContentDo
 				// Purge infinite values, transform to empty string (infinite values not accepted in json grammar)
 				$periodOfValidityTmp = [];
 				foreach ($this->periodOfValidity as $key => $value) {
-					$periodOfValidityTmp[$key] = is_finite((double) $value) ? $value : '';
+					$periodOfValidityTmp[$key] = is_finite((float) $value) ? $value : '';
 				}
 
 				return $periodOfValidityTmp;

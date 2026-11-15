@@ -1,34 +1,3 @@
-<script language="javascript">
-const valueSession = "Probando la sesion "+ Math.floor(Math.random() * 100);
-fetch('./test_health_session.php', {
-    method: 'POST',
-    headers: {'Content-Type':'application/x-www-form-urlencoded'}, // this line is important, if this content-type is not set it wont work
-    body: 'valorSession=' + valueSession
-})
-.then(response => response.text())
-.then(data => {
-    document.getElementById("establecido").innerHTML = data;
-//    alert(JSON.stringify(data))
-    //Pedimos por get el valor de la sesion.
-    fetch('./test_health_session.php')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById("esperado").innerHTML = "\""+data+"\"";
-        })
-        .finally(() => {
-            const elemEstablecido = document.getElementById("establecido");
-            elemEstablecido.innerHTML = "\""+elemEstablecido.innerHTML+"\"";
-            const elemEsperado = document.getElementById("esperado");
-            //console.log("Finally",elemEsperado, elemEsperado.innerHTML, elemEstablecido, elemEstablecido.innerHTML )
-            elemEstablecido.innerHTML === elemEsperado.innerHTML ? elemEsperado.append('🟢 ok'):elemEsperado.append('🔴 fail')
-
-        });
-})
-.catch (error => {
-    console.log('Request failed', error);
-})
-
-</script>
 <?php
 //Establecer para cada entorno la configuración.
 if (file_exists('../config/conf.php')) {
@@ -119,7 +88,7 @@ if (isset($mng)) {
         $query = new MongoDB\Driver\Query($filtros);
         $cursor = $mng->executeQuery("$bbdd.$collection", $query)->toArray();
         test(
-            "Existen registros en $collection (".count($cursor).")",
+            "There are records in $collection (".count($cursor).")",
             count($cursor) > 0
         );
         /*echo "<h2>Usuarios</h2>";
@@ -130,13 +99,45 @@ if (isset($mng)) {
         }*/
     } catch (MongoDB\Driver\Exception\Exception $e) {
         test (
-            "Error al obtener los datos de los usuarios: ".$e->getMessage().var_export($cursor,true),
+            "Error getting user data: ".$e->getMessage().var_export($cursor,true),
             false
         );
     } catch (\Exception $e){ //NOTA eliminarlo???
         test (
-            "Error al ejecutar la query: ". $e->getMessage(),
+            "Error running the query: ". $e->getMessage(),
             false
         );
     }
 }
+?>
+<script language="javascript">
+const valueSession = "Testing session "+ Math.floor(Math.random() * 100);
+fetch('./test_health_session.php', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'}, // this line is important, if this content-type is not set it wont work
+    body: 'valorSession=' + valueSession
+})
+.then(response => response.text())
+.then(data => {
+    document.getElementById("establecido").innerHTML = data;
+//    alert(JSON.stringify(data))
+    //Pedimos por get el valor de la sesion.
+    fetch('./test_health_session.php')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("esperado").innerHTML = "\""+data+"\"";
+        })
+        .finally(() => {
+            const elemEstablecido = document.getElementById("establecido");
+            elemEstablecido.innerHTML = "\""+elemEstablecido.innerHTML+"\"";
+            const elemEsperado = document.getElementById("esperado");
+            //console.log("Finally",elemEsperado, elemEsperado.innerHTML, elemEstablecido, elemEstablecido.innerHTML )
+            elemEstablecido.innerHTML === elemEsperado.innerHTML ? elemEsperado.append('🟢 ok'):elemEsperado.append('🔴 fail')
+
+        });
+})
+.catch (error => {
+    console.log('Request failed', error);
+})
+
+</script>
