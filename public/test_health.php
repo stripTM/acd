@@ -99,19 +99,19 @@ if (isset($mng)) {
         }*/
     } catch (MongoDB\Driver\Exception\Exception $e) {
         test (
-            "Error al obtener los datos de los usuarios: ".$e->getMessage().var_export($cursor,true),
+            "Error getting user data: ".$e->getMessage().var_export($cursor,true),
             false
         );
     } catch (\Exception $e){ //NOTA eliminarlo???
         test (
-            "Error al ejecutar la query: ". $e->getMessage(),
+            "Error running the query: ". $e->getMessage(),
             false
         );
     }
 }
 ?>
 <script language="javascript">
-const valueSession = "Probando la sesion "+ Math.floor(Math.random() * 100);
+const valueSession = "Testing session "+ Math.floor(Math.random() * 100);
 fetch('./test_health_session.php', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'}, // this line is important, if this content-type is not set it wont work
