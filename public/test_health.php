@@ -88,7 +88,7 @@ if (isset($mng)) {
         $query = new MongoDB\Driver\Query($filtros);
         $cursor = $mng->executeQuery("$bbdd.$collection", $query)->toArray();
         test(
-            "Existen registros en $collection (".count($cursor).")",
+            "There are records in $collection (".count($cursor).")",
             count($cursor) > 0
         );
         /*echo "<h2>Usuarios</h2>";
