@@ -54,7 +54,7 @@ class EnumeratedDo
 		$this->items = $items;
 	}
 	public function load($rawData) {
-		$this->setId($rawData['id']);
+		$this->setId($rawData['id'] ?? ''); // Documento inexistente: enumerado vacío
 		$this->setItems(isset($rawData['items']) ? $rawData['items'] : Array()) ;
 	}
 	public function tokenizeData() {

@@ -120,7 +120,7 @@ class ValueFormater
 					'decorate-inferred-ul' => false,
 					'doctype' => 'omit',
 					'drop-empty-paras' => false,
-					'drop-font-tags' => true,
+					//'drop-font-tags' => true, // eliminada en tidy-html5: en PHP 8 provoca ValueError
 					'drop-proprietary-attributes' => false,
 					'force-output' => false,
 					'hide-comments' => false,

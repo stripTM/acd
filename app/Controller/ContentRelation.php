@@ -19,6 +19,8 @@ class ContentRelation
 	private $numPage;
 	private $action;
 	private $structures;
+	private $sessionNavigation;
+	private $requestUrl;
 	private $contentParent;
 
 	public function __construct()

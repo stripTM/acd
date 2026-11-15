@@ -86,6 +86,9 @@ class PersistentEnumeratedManagerMongoDB implements iPersistentEnumeratedManager
 		// Currently no indexes are required
 	}
 	public function normalizeDocument($document) {
+		if ($document === null) {
+			return null;
+		}
 		$document['id'] = (string) $document['_id'];
 		unset($document['_id']);
 		return $document;

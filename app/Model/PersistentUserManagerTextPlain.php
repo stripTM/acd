@@ -210,6 +210,9 @@ class PersistentUserManagerTextPlain implements iPersistentUserManager
     }
     public function normalizeDocument($document)
     {
+        if ($document === null) {
+            return null;
+        }
         unset($document['_id']);
         return $document;
     }

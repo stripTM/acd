@@ -38,6 +38,7 @@ class FieldDo
 	private $refStructure; // Id of type of external content
 	private $instance; // Attributes for the relation width external content, eg. date validation
 	private $options; // Enumerated posible options
+	private $dirtyNumItem = false;
 	private $bDirty; // Field indicator to store if the value has modified without save
 	private $restrictedStructures; // In field type collection or content restrict to certain structures
 
