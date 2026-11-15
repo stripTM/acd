@@ -1,11 +1,11 @@
 <?php
 namespace Acd;
 
-require_once (DIR_BASE.'/app/model/StructureDo.php');
-require_once (DIR_BASE.'/app/model/FieldDo.php');
+use Acd\Tests\MongoTestCase;
 
 
-class structure extends \PHPUnit_Framework_TestCase
+
+class StructureTest extends MongoTestCase
 {
 	// ...
 
@@ -54,7 +54,7 @@ class structure extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('var', $f->getName());
 		$this->assertEquals('text_simple', $f->getType());
 
-		$idFiedld = $a->addField($f);
+		$a->addField($f);
 		$field = $a->getFields()->get('foo');
 		$this->assertEquals('foo', $field->getId());
 		$this->assertEquals('var', $field->getName());
@@ -64,8 +64,6 @@ class structure extends \PHPUnit_Framework_TestCase
 	public function testLoadFromFile() {
 		$a = new Model\StructureDo();
 		$a->setId('chat_tienda');
-		// Formerly loadFromFile(DIR_BASE.'/test/data/structures_demo.json');
-		// TODO: Change to inject dataManager
 		$a->loadFromFile();
 		$this->assertEquals('chat_tienda', $a->getId());
 		$this->assertEquals('Chat de tienda online', $a->getName());
@@ -81,7 +79,7 @@ class structure extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('Abierta', $field->getName());
 		$this->assertEquals('boolean', $field->getType());
 
-		$this->setExpectedException('\Acd\Model\KeyInvalidException');
-		$fields = $a->getFields()->get('no_exists');
+		$this->expectException(Model\KeyInvalidException::class);
+		$a->getFields()->get('no_exists');
 	}
 }

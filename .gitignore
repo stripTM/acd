@@ -18,3 +18,5 @@ public/borrador
 public/_
 
 .env
+# PHPUnit
+.phpunit.cache
