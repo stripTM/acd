@@ -96,13 +96,13 @@ class Relation
 	public function render()
 	{
 		$ou = new RelationView();
-		$ou->setContentTitle($this->getContent()->getTitle());
+		$ou->setContentTitle($this->getContent()?->getTitle());
 		$ou->setParentList($this->getParents());
 
 		$this->sessionNavigation->push([
 			'hash' => 'relation - ' . $this->getIdStructure() . ' - ' . $this->getIdContent(), // Page hash, consecutive same hash no add navigation
 			'url' => $this->requestUrl,
-			'title' => $this->getTitle() . $this->getContent()->getTitle()
+			'title' => $this->getTitle() . $this->getContent()?->getTitle()
 		]);
 		$this->sessionNavigation->save();
 

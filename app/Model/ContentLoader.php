@@ -183,6 +183,9 @@ class ContentLoader extends StructureDo
 		} elseif (is_object($result) && get_class($result) === 'Acd\Model\ContentsDo') {
 			// It's a ContentsDo
 			return $result;
+		} elseif ($result === null) {
+			// Content not found
+			return new ContentsDo();
 		} else {
 			// Error is not a ContentDo or ContentsDo
 			throw new ContentLoaderException("Error in loadContents '$method' does not support load return ContentsDo", 1);
@@ -269,7 +272,9 @@ class ContentLoader extends StructureDo
 		$persistentManager = $this->getManager();
 
 		$contentDo = $this->loadContent('id', $id);
-		$this->deleteUpload($contentDo);
+		if ($contentDo !== null) {
+			$this->deleteUpload($contentDo);
+		}
 
 		return $persistentManager->delete($this, $id);
 	}
