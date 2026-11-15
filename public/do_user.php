@@ -11,8 +11,8 @@ ini_set('session.gc_maxlifetime', $_ENV[ 'ACD_SESSION_GC_MAXLIFETIME']);
 session_start();
 if(!RolPermissionHttp::checkUserEditor([$_ENV['ACD_ROL_DEVELOPER']])) die();
 
-$action = strtolower($_POST['a']);
-$id = $_POST['id'];
+$action = strtolower($_POST['a'] ?? '');
+$id = $_POST['id'] ?? '';
 $password = isset($_POST['password']) && $_POST['password'] !== '' ? $_POST['password'] : null; // If password is not setted store a null value
 $rol = isset($_POST['rol']) ? $_POST['rol'] : null;
 
@@ -40,10 +40,10 @@ switch ($action) {
 	case 'new':
 		$bIdValid = false;
 		if ($action === 'new') {
-			$bIdValid = ($objectFound === null && $id !== '');
+			$bIdValid = (!$objectFound && $id !== '');
 		}
 		else {
-			$bIdValid = ($objectFound !== null);
+			$bIdValid = $objectFound;
 		}
 		if($bIdValid) {
 			$modifiedUser = new UserDo();
