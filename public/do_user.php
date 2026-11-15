@@ -43,7 +43,9 @@ switch ($action) {
 			$bIdValid = (!$objectFound && $id !== '');
 		}
 		else {
-			$bIdValid = $objectFound;
+			// El formulario de alta también envía 'save': crea o actualiza.
+			// Un usuario nuevo necesita contraseña porque no hay otra que conservar.
+			$bIdValid = ($id !== '' && ($objectFound || $password !== null));
 		}
 		if($bIdValid) {
 			$modifiedUser = new UserDo();
