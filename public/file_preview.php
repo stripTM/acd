@@ -35,10 +35,13 @@ if( !function_exists('apache_request_headers') ) {
 	}
 }
 
-$idFile = $_GET['id'];
-$fileName = $_GET['n'];
-$path = File::getPath($idFile);
-if (is_readable($path)){
+$idFile = $_GET['id'] ?? '';
+$fileName = $_GET['n'] ?? '';
+// Los ficheros se guardan con un md5 como identificador: cualquier otro valor
+// (p. ej. '../.env') permitiría leer ficheros fuera de ACD_DATA_CONTENT_PATH.
+$bValidId = preg_match('/^[0-9a-f]{32}$/', $idFile) === 1;
+$path = $bValidId ? File::getPath($idFile) : null;
+if ($bValidId && is_readable($path)){
 	$fileTools = new File();
 	$fileType = $fileTools->getMimeFromFilename($fileName);
 	if (!$fileType) {
