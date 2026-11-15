@@ -19,13 +19,10 @@ services:
     environment:
       MONGO_INITDB_DATABASE: acd
     volumes:
-      - mongo-data:/data/db
+      - ./data/mongo:/data/db
       - ./docker/mongo/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
       interval: 5s
       timeout: 5s
       retries: 20
-
-volumes:
-  mongo-data:

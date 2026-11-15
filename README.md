@@ -46,11 +46,13 @@ http://creativecommons.org/licenses/by-sa/3.0/deed.es
 ```sh
 docker compose up -d --build   # http://localhost:8080  (usuario admin / admin)
 docker compose logs -f app     # errores y avisos de PHP
-docker compose down            # parar (añadir -v para borrar la BBDD)
+docker compose down            # parar (los datos se conservan en data/)
 ```
 
 * `docker/php/`: imagen PHP 8.5 + Apache con las extensiones `mongodb`, `imagick` y `tidy`. El código se monta desde el host y `composer install` se ejecuta al arrancar si falta `vendor/`.
 * `docker/acd.env`: configuración de la app dentro del contenedor (se monta como `.env`).
-* `docker/mongo/init/`: crea colecciones, índices y el usuario `admin` la primera vez que se inicializa el volumen `mongo-data`.
-* `data/contents`: binarios subidos en los campos de tipo fichero. Es lo único que se guarda fuera de MongoDB.
+* `docker/mongo/init/`: crea colecciones, índices y el usuario `admin` cuando `data/mongo` está vacío.
+* `data/mongo`: ficheros de la base de datos MongoDB. Para empezar de cero, parar los contenedores y borrar este directorio (necesita `sudo`: los ficheros son del usuario de MongoDB, UID 999).
+* `data/contents`: binarios subidos en los campos de tipo fichero.
+* Copia de seguridad: `docker compose exec mongo mongodump --db acd --archive > acd.dump` (restaurar con `docker compose exec -T mongo mongorestore --archive < acd.dump`).
 * Puertos configurables con `ACD_HTTP_PORT` (8080) y `ACD_MONGO_PORT` (27017, solo en localhost).
