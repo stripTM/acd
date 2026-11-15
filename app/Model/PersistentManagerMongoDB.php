@@ -217,6 +217,9 @@ class PersistentManagerMongoDB implements iPersistentManager
 					'document' => 'array'
 				]
 			]);
+			if ($documentFound === null) {
+				return null;
+			}
 			$documentFound = $this->normalizeDocument($documentFound);
 			$contentFound = new ContentDo();
 			$contentFound->load($documentFound, $structureDo);

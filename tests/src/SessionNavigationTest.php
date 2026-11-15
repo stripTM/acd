@@ -2,7 +2,7 @@
 namespace Acd;
 use \Acd\Model\SessionNavigation;
 
-class session_navigation_test extends \PHPUnit_Framework_TestCase
+class SessionNavigationTest extends \PHPUnit\Framework\TestCase
 {
 	// ...
 
@@ -47,7 +47,7 @@ class session_navigation_test extends \PHPUnit_Framework_TestCase
 		$navigation->push($item);
 		$this->assertEquals($navigation->pop(), $item);
 
-		$this->setExpectedException('Exception');
+		$this->expectException('Exception');
 		$this->assertEquals($navigation->pop(), $item);
 	}
 	public function testoveflowStack() {

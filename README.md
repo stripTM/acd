@@ -56,3 +56,11 @@ docker compose down            # parar (los datos se conservan en data/)
 * `data/contents`: binarios subidos en los campos de tipo fichero.
 * Copia de seguridad: `docker compose exec mongo mongodump --db acd --archive > acd.dump` (restaurar con `docker compose exec -T mongo mongorestore --archive < acd.dump`).
 * Puertos configurables con `ACD_HTTP_PORT` (8080) y `ACD_MONGO_PORT` (27017, solo en localhost).
+
+### Tests ###
+
+```sh
+docker compose exec app vendor/bin/phpunit
+```
+
+Usan la base de datos `acd_test` del mismo MongoDB, que se vacía y se carga con los datos de `tests/data` antes de cada test (no tocan la base de datos `acd`). Fallan ante cualquier aviso o deprecación de PHP.

@@ -3,7 +3,7 @@ namespace Acd;
 
 use Acd\Model\EnumeratedDo;
 
-class enumerated_test extends \PHPUnit_Framework_TestCase
+class EnumeratedTest extends \PHPUnit\Framework\TestCase
 {
 	// ...
 

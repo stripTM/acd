@@ -1,10 +1,8 @@
 <?php
 namespace Acd;
 
-include_once (DIR_BASE.'/app/model/FieldDo.php');
-include_once (DIR_BASE.'/app/model/StructureDo.php');
 
-class field extends \PHPUnit_Framework_TestCase
+class FieldTest extends \PHPUnit\Framework\TestCase
 {
 	// ...
 

@@ -218,6 +218,10 @@ switch ($action) {
 		$contentLoader = new ContentLoader();
 		$contentLoader->setId($idStructureType);
 		$content = $contentLoader->loadContent('id+countParents', $id);
+		if (!$content) {
+			header('HTTP/1.0 404 Not Found');
+			die('404. Content not found');
+		}
 		//$content = $contents->get($id); // TODO cambiar por next / first...
 		//dd($contentLoader->getFields(),$structure, $content);
 
