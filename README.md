@@ -40,3 +40,17 @@ http://www.gnu.org/licenses/gpl-3.0.html
 
 The images are under Creative Commons BY-SA 3.0:
 http://creativecommons.org/licenses/by-sa/3.0/deed.es
+
+### Entorno Docker (PHP 8.5 + MongoDB 8.0) ###
+
+```sh
+docker compose up -d --build   # http://localhost:8080  (usuario admin / admin)
+docker compose logs -f app     # errores y avisos de PHP
+docker compose down            # parar (añadir -v para borrar la BBDD)
+```
+
+* `docker/php/`: imagen PHP 8.5 + Apache + extensión `mongodb`. El código se monta desde el host y `composer install` se ejecuta al arrancar si falta `vendor/`.
+* `docker/acd.env`: configuración de la app dentro del contenedor (se monta como `.env`).
+* `docker/mongo/init/`: crea colecciones, índices y el usuario `admin` la primera vez que se inicializa el volumen `mongo-data`.
+* `data/`: ficheros que siguen fuera de MongoDB (`permission.json`, binarios subidos en `data/contents`, sesiones permanentes).
+* Puertos configurables con `ACD_HTTP_PORT` (8080) y `ACD_MONGO_PORT` (27017, solo en localhost).

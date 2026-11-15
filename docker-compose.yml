@@ -1,0 +1,31 @@
+services:
+  app:
+    build:
+      context: docker/php
+    image: acd-php:8.5
+    ports:
+      - "${ACD_HTTP_PORT:-8080}:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/acd.env:/var/www/html/.env:ro
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  mongo:
+    image: mongo:8.0
+    ports:
+      - "127.0.0.1:${ACD_MONGO_PORT:-27017}:27017"
+    environment:
+      MONGO_INITDB_DATABASE: acd
+    volumes:
+      - mongo-data:/data/db
+      - ./docker/mongo/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  mongo-data:
