@@ -1,34 +1,3 @@
-<script language="javascript">
-const valueSession = "Probando la sesion "+ Math.floor(Math.random() * 100);
-fetch('./test_health_session.php', {
-    method: 'POST',
-    headers: {'Content-Type':'application/x-www-form-urlencoded'}, // this line is important, if this content-type is not set it wont work
-    body: 'valorSession=' + valueSession
-})
-.then(response => response.text())
-.then(data => {
-    document.getElementById("establecido").innerHTML = data;
-//    alert(JSON.stringify(data))
-    //Pedimos por get el valor de la sesion.
-    fetch('./test_health_session.php')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById("esperado").innerHTML = "\""+data+"\"";
-        })
-        .finally(() => {
-            const elemEstablecido = document.getElementById("establecido");
-            elemEstablecido.innerHTML = "\""+elemEstablecido.innerHTML+"\"";
-            const elemEsperado = document.getElementById("esperado");
-            //console.log("Finally",elemEsperado, elemEsperado.innerHTML, elemEstablecido, elemEstablecido.innerHTML )
-            elemEstablecido.innerHTML === elemEsperado.innerHTML ? elemEsperado.append('🟢 ok'):elemEsperado.append('🔴 fail')
-
-        });
-})
-.catch (error => {
-    console.log('Request failed', error);
-})
-
-</script>
 <?php
 //Establecer para cada entorno la configuración.
 if (file_exists('../config/conf.php')) {
@@ -140,3 +109,35 @@ if (isset($mng)) {
         );
     }
 }
+?>
+<script language="javascript">
+const valueSession = "Probando la sesion "+ Math.floor(Math.random() * 100);
+fetch('./test_health_session.php', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'}, // this line is important, if this content-type is not set it wont work
+    body: 'valorSession=' + valueSession
+})
+.then(response => response.text())
+.then(data => {
+    document.getElementById("establecido").innerHTML = data;
+//    alert(JSON.stringify(data))
+    //Pedimos por get el valor de la sesion.
+    fetch('./test_health_session.php')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("esperado").innerHTML = "\""+data+"\"";
+        })
+        .finally(() => {
+            const elemEstablecido = document.getElementById("establecido");
+            elemEstablecido.innerHTML = "\""+elemEstablecido.innerHTML+"\"";
+            const elemEsperado = document.getElementById("esperado");
+            //console.log("Finally",elemEsperado, elemEsperado.innerHTML, elemEstablecido, elemEstablecido.innerHTML )
+            elemEstablecido.innerHTML === elemEsperado.innerHTML ? elemEsperado.append('🟢 ok'):elemEsperado.append('🔴 fail')
+
+        });
+})
+.catch (error => {
+    console.log('Request failed', error);
+})
+
+</script>
