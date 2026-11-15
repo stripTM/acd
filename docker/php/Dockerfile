@@ -4,10 +4,10 @@ FROM php:8.5-apache
 ARG MONGODB_EXT_VERSION=2.5.7
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends git unzip libssl-dev libzip-dev \
+ && apt-get install -y --no-install-recommends git unzip libssl-dev libzip-dev libtidy-dev \
  && pecl install mongodb-${MONGODB_EXT_VERSION} \
  && docker-php-ext-enable mongodb \
- && docker-php-ext-install zip \
+ && docker-php-ext-install zip tidy \
  && a2enmod rewrite headers \
  && rm -rf /var/lib/apt/lists/* /tmp/pear
 
