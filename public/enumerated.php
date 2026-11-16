@@ -53,10 +53,10 @@ $toolsOu->setRol($_SESSION['rol']);
 $skeletonOu->setTools($toolsOu->render());
 switch ($result) {
     case 'ok':
-        $skeletonOu->setResultDesc('Done', 'ok');
+        $skeletonOu->setResultDesc('Hecho', 'ok');
         break;
     case 'ko':
-        $skeletonOu->setResultDesc('Fail', 'ko');
+        $skeletonOu->setResultDesc('No se ha podido completar la operación', 'ko');
         break;
 }
 $skeletonOu->setContent($sContent);

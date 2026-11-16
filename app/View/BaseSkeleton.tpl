@@ -1,10 +1,18 @@
+<?php
+use Acd\View\Icon;
+
+$hasSidebar = trim($tools) !== '';
+$crumbs = (isset($breadcrumb) && $breadcrumb) ? $breadcrumb : [['label' => $headTitle]];
+$lastCrumb = count($crumbs) - 1;
+?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es">
 <head>
 	<meta charset="utf-8"/>
-	<meta name="viewport" content="width=device-width"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
+	<script type="text/javascript">
+		try { if (localStorage.getItem("acd-theme") === "dark") document.documentElement.setAttribute("data-theme", "dark"); } catch (e) {}
+	</script>
 	<link rel="stylesheet" type="text/css" href="js/jquery-ui/jquery-ui.min.css"/>
 	<link rel="stylesheet" type="text/css" href="js/datetimepicker/jquery.datetimepicker.css"/>
 	<link rel="stylesheet" type="text/css" href="js/tag-it/jquery.tagit.css"/>
@@ -14,21 +22,45 @@
 	<link href="style/icon_128.png" sizes="128x128" rel="icon" />
 	<title><?=htmlspecialchars($headTitle)?></title>
 </head>
-<body class="<?=$bodyClass?>">
-<header>
-	<?=$headerMenu?>
-	<h1>ACD</h1>
-</header>
-<div id="wrapper">
-	<?php
-	if (isset($resultCode)) {
-	?>
-		<p class="result <?=$resultCode?>"><?=$resultDesc?></p>
-	<?php
-	}
-	?>
-	<?=$content?>
+<body class="<?=$bodyClass?><?=$hasSidebar ? '' : ' noSidebar'?>">
+<div id="app">
 	<?=$tools?>
+	<div id="mainc">
+		<?php
+		if ($hasSidebar) {
+		?>
+		<header id="top">
+			<?=$headerMenu?>
+			<nav class="crumb" aria-label="Migas de pan">
+				<?php
+				foreach ($crumbs as $n => $crumb) {
+					$label = htmlspecialchars($crumb['label']);
+					if ($n === $lastCrumb) {
+						echo "<b>$label</b>";
+					}
+					else {
+						echo isset($crumb['url']) ? '<a href="'.htmlspecialchars($crumb['url']).'">'.$label.'</a>' : "<span>$label</span>";
+						echo '<span class="sep">/</span>';
+					}
+				}
+				?>
+			</nav>
+			<button type="button" class="iconbtn" id="themeToggle" title="Cambiar entre tema claro y oscuro" aria-label="Cambiar tema"><?=Icon::svg('moon')?></button>
+		</header>
+		<?php
+		}
+		?>
+		<div id="wrapper">
+			<?php
+			if (isset($resultCode)) {
+			?>
+				<p class="result <?=$resultCode?>"><?=$resultDesc?></p>
+			<?php
+			}
+			?>
+			<?=$content?>
+		</div>
+	</div>
 </div>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/jquery-ui/jquery-ui.min.js"></script>

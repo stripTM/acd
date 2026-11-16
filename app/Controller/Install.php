@@ -45,7 +45,7 @@ class Install
     }
     public function getTitle()
     {
-        return 'DB indexes of the collections';
+        return 'Instalación';
     }
     public function getHeaderMenuOu()
     {

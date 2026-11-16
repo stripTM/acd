@@ -12,6 +12,7 @@ class BaseSkeleton extends Template {
 		$this->__set('headerMenu', '');
 		$this->__set('content', '');
 		$this->__set('tools', '');
+		$this->__set('breadcrumb', []);
 	}
 	public function setBodyClass($bodyClass) {
 		$this->__set('bodyClass', $bodyClass);
@@ -24,6 +25,10 @@ class BaseSkeleton extends Template {
 	}
 	public function setContent($content) {
 		$this->__set('content', $content);
+	}
+	// [['label' => ..., 'url' => ...], ...] the last one is the current page
+	public function setBreadcrumb($breadcrumb) {
+		$this->__set('breadcrumb', $breadcrumb);
 	}
 	public function setTools($tools) {
 		$this->__set('tools', $tools);

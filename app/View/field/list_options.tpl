@@ -6,7 +6,7 @@
 	 $itemsInOut = $fieldOptions->detachItems($fieldValue);
 ?>
 	<select name="field[<?=htmlspecialchars($idParent)?>][<?=$id?>][value]" id="field_<?=$id?>" class="field select">
-		<option value="">Select option…</option>
+		<option value="">Selecciona una opción…</option>
 		<?php
 			foreach ($itemsInOut['in'] as $key => $value) {
 		?>

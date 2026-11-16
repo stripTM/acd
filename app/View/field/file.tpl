@@ -19,7 +19,7 @@
 
 		$urlPreview = 'file_preview.php?id='.urlencode($fieldValue['value']).'&amp;n='.htmlspecialchars($fieldValue['original_name']);
 		if (substr($fieldValue['type'], 0, 6) === 'image/') {
-			$preview = '<img src="'.$urlPreview.'" alt="Image preview, '.htmlspecialchars($fieldValue['original_name']).'" class="field preview"/> '.htmlspecialchars($fieldValue['original_name']).' <span class="size">'.$humanFileSize."</span>";
+			$preview = '<img src="'.$urlPreview.'" alt="Vista previa, '.htmlspecialchars($fieldValue['original_name']).'" class="field preview"/> '.htmlspecialchars($fieldValue['original_name']).' <span class="size">'.$humanFileSize."</span>";
 		}
 		else {
 			$preview = '<a href="'.$urlPreview.'">'.htmlspecialchars($fieldValue['original_name']).'</a> <span class="size">'.$humanFileSize."</span>";
@@ -43,16 +43,16 @@ if (!$bNew) {
 
 <div>
 	<?=$preview?>
-	Description / image alt <input type="text" name="field[<?=htmlspecialchars($idParent)?>][<?=$id?>][alt]" value="<?=htmlspecialchars($fieldValue['alt'])?>"/>
+	<span class="sublabel">Descripción / texto alternativo</span> <input type="text" name="field[<?=htmlspecialchars($idParent)?>][<?=$id?>][alt]" value="<?=htmlspecialchars($fieldValue['alt'])?>" class="field text"/>
 </div>
 <input type="file" name="field[<?=htmlspecialchars($idParent)?>][<?=$id?>][file]" class="field file" id="field_<?=htmlspecialchars($id.'_'.$idParent)?>"/>
-<input type="checkbox" name="field[<?=htmlspecialchars($idParent)?>][<?=$id?>][delete]" value="1" id="field_<?=htmlspecialchars($id.'_'.$idParent)?>_delete"/> <label for="field_<?=htmlspecialchars($id.'_'.$idParent)?>_delete">Delete</label>
+<input type="checkbox" name="field[<?=htmlspecialchars($idParent)?>][<?=$id?>][delete]" value="1" id="field_<?=htmlspecialchars($id.'_'.$idParent)?>_delete"/> <label for="field_<?=htmlspecialchars($id.'_'.$idParent)?>_delete" class="inlineLabel">Eliminar archivo</label>
 <?php
 	}
 	else {
 ?>
 <div>
-	Description / image alt <input type="text" name="field[<?=htmlspecialchars($idParent)?>][<?=$id?>][alt]" value=""/>
+	<span class="sublabel">Descripción / texto alternativo</span> <input type="text" name="field[<?=htmlspecialchars($idParent)?>][<?=$id?>][alt]" value="" class="field text"/>
 </div>
 <input type="file" name="field[<?=htmlspecialchars($idParent)?>][<?=$id?>][file]" class="field file" id="field_<?=$id?>"/>
 <?php

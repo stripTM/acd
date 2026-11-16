@@ -111,7 +111,7 @@ class ContentRelation
 	}
 	public function getTitle()
 	{
-		return 'Add content to ' . $this->contentParent->getTitle() . ' (' . $this->getIdStructureTypeParent() . ' / ' . $this->getIdField() . ')';
+		return 'Añadir contenido a ' . $this->contentParent->getTitle() . ' (' . $this->getIdStructureTypeParent() . ' / ' . $this->getIdField() . ')';
 	}
 	public function getHeaderMenuOu()
 	{

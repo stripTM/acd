@@ -5,6 +5,6 @@
 	<input type="text" name="field[<?=htmlspecialchars($idParent)?>][<?=$id?>][value][href]" value="<?=htmlspecialchars($fieldValue['href'])?>" id="field_<?=htmlspecialchars($id.'_'.$idParent)?>" class="field link_href"/>
 </div>
 <div>
-	<label for="field_<?=htmlspecialchars($id.'_'.$idParent)?>_description">Description</label>
+	<label for="field_<?=htmlspecialchars($id.'_'.$idParent)?>_description" class="sublabel">Descripción</label>
 	<input type="text" name="field[<?=htmlspecialchars($idParent)?>][<?=$id?>][value][description]" value="<?=htmlspecialchars($fieldValue['description'])?>" id="field_<?=htmlspecialchars($id.'_'.$idParent)?>_description" class="field link_description"/>
 </div>
