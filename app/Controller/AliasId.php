@@ -80,7 +80,7 @@ class AliasId
 	}
 	public function getTitle()
 	{
-		return 'Relations of ';
+		return 'Alias-id · ';
 	}
 	// back button
 	private function initializeSessionNavigation()

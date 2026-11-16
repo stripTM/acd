@@ -1,33 +1,44 @@
 <?php
+use Acd\View\Icon;
+use Acd\Model\ValueFormater;
+
 $bNew = $userElement->getId() == '';
 $userRol = $userElement->getRol();
 ?>
-<main id="manageStructure">
-	<h2>User <em class="structure_name"><?=$userElement->getId()?></em></h2>
-	<p class="result <?=$resultCode?>"><?=$resultDesc?></p>
+<main id="manageStructure" class="narrow">
 	<form action="do_user.php" method="post">
-		<fieldset class="internal">
+		<div class="ehead">
+			<div class="etitle">
+				<div class="etitleRow"><h2><?=$bNew ? 'Nuevo usuario' : htmlspecialchars($userElement->getId())?></h2></div>
+				<div class="meta">Usuario</div>
+			</div>
+			<div class="acts actions">
+				<button name="a" value="save" class="btn pri publish" type="submit"><?=Icon::svg('check')?> Guardar</button>
+			</div>
+		</div>
+		<p class="result <?=$resultCode?>"><?=$resultDesc?></p>
+		<fieldset class="card ecard internal">
 		<?php
 			if($bNew) {
 		?>
-			<div class="pre_table user">
-				<label for="id_user">Id user:</label> <input name="id" id="id_user" value="" required="required" placeholder="New id" type="text"/>
+			<div class="fgrp pre_table user">
+				<label for="id_user">Id de usuario</label><input name="id" id="id_user" value="" required="required" placeholder="Nuevo id" type="text" class="field text"/>
 			</div>
-			<div>
-				<label for="password">Password:&nbsp;</label><input type="password" name="password" id="password" value="" required="required"/>
+			<div class="fgrp">
+				<label for="password">Contraseña</label><input type="password" name="password" id="password" value="" required="required"/>
 			</div>
 		<?php
 			}
 			else {
 		?>
-			<input name="id" value="<?=$userElement->getId()?>" type="hidden"/>
-			<div>
-				<label for="password">Password:&nbsp;</label><input type="password" name="password" id="password" value=""/>
+			<input name="id" value="<?=htmlspecialchars($userElement->getId())?>" type="hidden"/>
+			<div class="fgrp">
+				<label for="password">Contraseña <em class="hint">· déjala vacía para no cambiarla</em></label><input type="password" name="password" id="password" value=""/>
 			</div>
 		<?php
 			}
 		?>
-		<div>
+		<div class="fgrp">
 			<?php
 			$options = '';
 			foreach ($roles as $key => $value) {
@@ -36,39 +47,36 @@ $userRol = $userElement->getRol();
 
 			}
 			?>
-			<label for="storage">Rol:&nbsp;</label><select name="rol" id="rol" required="required"><option></option><?=$options?></select>
-		</div>
-		<div class="actions">
-			<input name="a" value="save" class="button publish" type="submit">
+			<label for="rol">Rol</label><select name="rol" id="rol" required="required"><option></option><?=$options?></select>
 		</div>
 		</fieldset>
 	</form>
 	<?php
 		if($authPermanentList) {
 	?>
-		<h2>Authenticated sessions</h2>
+		<h3 class="sectionTitle">Sesiones recordadas</h3>
 		<?php
 			$listAuth = '';
 			foreach($authPermanentList as $authPermanent) {
 				$listAuth .= '<li class="list_item">'
 				.'<form action="do_process_auth_permanent.php" method="post">'
-				.'<input name="id" value="'.$authPermanent->getId().'" type="hidden"/>'
-				.'<input name="login" value="'.$authPermanent->getLogin().'" type="hidden"/>'
+				.'<input name="id" value="'.htmlspecialchars($authPermanent->getId()).'" type="hidden"/>'
+				.'<input name="login" value="'.htmlspecialchars($authPermanent->getLogin()).'" type="hidden"/>'
 				.'<label>'
-					.$authPermanent->getId().' '
-					.'<span class="date" title="Creation '.\Acd\Model\ValueFormater::encode($authPermanent->getCreationDate(), \Acd\Model\ValueFormater::TYPE_DATE_TIME, \Acd\Model\ValueFormater::FORMAT_EDITOR).'">'
-						.\Acd\Model\ValueFormater::encode($authPermanent->getCreationDate(), \Acd\Model\ValueFormater::TYPE_DATE_TIME, \Acd\Model\ValueFormater::FORMAT_HUMAN)
+					.'<span class="mono token">'.htmlspecialchars($authPermanent->getId()).'</span> '
+					.'<span class="date" title="Creación '.ValueFormater::encode($authPermanent->getCreationDate(), ValueFormater::TYPE_DATE_TIME, ValueFormater::FORMAT_EDITOR).'">'
+						.ValueFormater::encode($authPermanent->getCreationDate(), ValueFormater::TYPE_DATE_TIME, ValueFormater::FORMAT_HUMAN)
 					.'</span> - '
-					.'<span class="date" title="Last use '.\Acd\Model\ValueFormater::encode($authPermanent->getLastUseDate(), \Acd\Model\ValueFormater::TYPE_DATE_TIME, \Acd\Model\ValueFormater::FORMAT_EDITOR).'">'
-						.\Acd\Model\ValueFormater::encode($authPermanent->getLastUseDate(), \Acd\Model\ValueFormater::TYPE_DATE_TIME, \Acd\Model\ValueFormater::FORMAT_HUMAN)
+					.'<span class="date" title="Último uso '.ValueFormater::encode($authPermanent->getLastUseDate(), ValueFormater::TYPE_DATE_TIME, ValueFormater::FORMAT_EDITOR).'">'
+						.ValueFormater::encode($authPermanent->getLastUseDate(), ValueFormater::TYPE_DATE_TIME, ValueFormater::FORMAT_HUMAN)
 					.'</span> '
 				.'</label>'
-				.'<span class="tools"><input type="submit" name="a" value="delete" class="button delete"/></span>'
+				.'<span class="tools"><button type="submit" name="a" value="delete" class="btn sm ghost-bad delete">'.Icon::svg('trash').' Eliminar</button></span>'
 				.'</form>'
 				.'</li>';
 			}
 		?>
-		<ol id="auth_persistent_list" class="list_with_options"><?=$listAuth?></ol>
+		<ol id="auth_persistent_list" class="card list_with_options"><?=$listAuth?></ol>
 	<?php
 		}
 	?>

@@ -24,16 +24,16 @@ else {
 		<span class="relatedContent">
 			<input type="hidden" name="field[<?=htmlspecialchars($idParent)?>][<?=$id?>][value]" value="<?=htmlspecialchars($idContent)?>" id="field_<?=htmlspecialchars($id.'_'.$idParent)?>"/>
 			<input type="hidden" name="field[<?=htmlspecialchars($idParent)?>][<?=$id?>][type]" value="<?=htmlspecialchars($idStructure)?>"/>
-			<input type="text" name="field[<?=htmlspecialchars($idParent)?>][<?=$id?>][title][]" value="<?=htmlspecialchars($title)?>" disabled="disabled" class="field relationTitle"/>
+			<input type="text" name="field[<?=htmlspecialchars($idParent)?>][<?=$id?>][title][]" value="<?=htmlspecialchars($title)?>" disabled="disabled" class="field relationTitle" placeholder="Sin contenido relacionado"/>
 <?php
 			if ($idContent) {
 ?>
-				<a href="content.php?a=edit&amp;id=<?=urlencode($idContent)?>&amp;idt=<?=urlencode($idStructure)?>&amp;idp=<?=urlencode($idParent)?>&amp;idtp=<?=urlencode($idStructureParent)?>" class="button edit">Edit</a>
-				<a href="content.php?a=edit&amp;modrel=1&amp;id=<?=urlencode($idParent)?>&amp;idt=<?=urlencode($idStructureParent)?>&amp;posElement[]=<?=$pos?>&amp;element[<?=$pos?>][idm]=<?=urlencode($fieldId)?>&amp;element[<?=$pos?>][refm]=&amp;element[<?=$pos?>][reftm]=&amp;element[<?=$pos?>][posm]=<?=$pos?>" class="button clear">Clear</a>
+				<a href="content.php?a=edit&amp;id=<?=urlencode($idContent)?>&amp;idt=<?=urlencode($idStructure)?>&amp;idp=<?=urlencode($idParent)?>&amp;idtp=<?=urlencode($idStructureParent)?>" class="button edit">Editar</a>
+				<a href="content.php?a=edit&amp;modrel=1&amp;id=<?=urlencode($idParent)?>&amp;idt=<?=urlencode($idStructureParent)?>&amp;posElement[]=<?=$pos?>&amp;element[<?=$pos?>][idm]=<?=urlencode($fieldId)?>&amp;element[<?=$pos?>][refm]=&amp;element[<?=$pos?>][reftm]=&amp;element[<?=$pos?>][posm]=<?=$pos?>" class="button clear">Quitar</a>
 <?php
 				if ($validityDate) {
 ?>
-					<span class="periodValidity" title="Period of validity"><?=$validityDate?></span>
+					<span class="periodValidity" title="Vigencia"><?=$validityDate?></span>
 <?php
 				}
 ?>
@@ -43,7 +43,7 @@ else {
 		if (!$bNew) {
 ?>
 		<div>
-			<a href="content_rel.php?a=select_type&amp;idp=<?=urlencode($idParent)?>&amp;idtp=<?=urlencode($idStructureParent)?>&amp;f=<?=urlencode($fieldId)?>&amp;idt=<?=urlencode($idStructure)?>" class="button search">Find</a>
+			<a href="content_rel.php?a=select_type&amp;idp=<?=urlencode($idParent)?>&amp;idtp=<?=urlencode($idStructureParent)?>&amp;f=<?=urlencode($fieldId)?>&amp;idt=<?=urlencode($idStructure)?>" class="button search">Buscar contenido</a>
 		</div>
 <?php
 }

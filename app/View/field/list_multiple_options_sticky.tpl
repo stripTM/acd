@@ -1,4 +1,4 @@
-<label for="<?=htmlspecialchars($fieldId.'_'.$idParent)?>" class="for-tag"><?=htmlspecialchars($fieldName)?>:&nbsp;</label>
+<label for="<?=htmlspecialchars($fieldId.'_'.$idParent)?>" class="for-tag"><?=htmlspecialchars($fieldName)?></label>
 <?php
 	 $itemsInOut = $fieldOptions->detachItems($fieldValue);
 ?>
