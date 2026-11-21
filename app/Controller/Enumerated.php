@@ -65,13 +65,13 @@ class Enumerated
 	{
 		switch ($this->getView()) {
 			case $this::VIEW_LIST:
-				return 'Collections of enumerated values';
+				return 'Enumerados';
 				break;
 			case $this::VIEW_DETAIL:
-				return 'Enumerated values of ' . $this->getContent()->getId();
+				return 'Enumerado ' . $this->getContent()->getId();
 				break;
 			case $this::VIEW_DETAIL_NEW:
-				return 'New collection of enumerated values';
+				return 'Nuevo enumerado';
 				break;
 		}
 	}

@@ -4,16 +4,19 @@ var editor = {
 	init : function() {
 		/* Tools menu */
 		editor.$body = $("body");
-		$("#header-menu .tools-menu")
+		$("#header-menu .tools-menu, #sideBackdrop")
 			.bind("click", function(e) {
 				editor.$body.toggleClass("withOptions");
 				e.preventDefault();
 			})
+		theme.init();
+		toast.init();
+		editor.markBusyOnSave();
 		/* Back buttom */
 		navigationHistory.init();
 
 		/* Delete buttons */
-		editor.$iDelete = $('input[value=delete]');
+		editor.$iDelete = $('button[value=delete], input[value=delete]');
 
 		/* Prevent accidental  delete*/
 		editor.$iDelete.bind("click", editor.confirmDelete);
@@ -26,9 +29,7 @@ var editor = {
 		});
 
 		/* Search structures */
-		if($("#structures_list").length > 0) {
-			$("#structures_list")
-				.before("<div class='wrap_filter'><label for='structures_filter'>Filter:</label> <input type='search' id='structures_filter'/></div>");
+		if($("#structures_list").length > 0 && $("#structures_filter").length > 0) {
 			var jets = new Jets({
 				searchTag: '#structures_filter',
 				contentTag: "#structures_list",
@@ -53,13 +54,6 @@ var editor = {
 
 		/* Content fields */
 		editor.enhacedContentForm(document);
-
-		/* Content list */
-		$("#contents_list")
-			.each(function() {
-				var lowerLimit = $(this).data("lower-limit") || 0;
-				$(this).css("counter-reset", "num-item " + lowerLimit); // Set first position number
-			});
 
 		/* Enumerated */
 		// Return a helper with preserved width of cells
@@ -148,7 +142,11 @@ var editor = {
 
 		/* Textarea WYSIWYG  */
 		$context.find(".richtext").each( function() {
-			CKEDITOR.replace(this);
+			var richEditor = CKEDITOR.replace(this);
+			// contentDom fires each time the editing area is (re)created
+			richEditor.on("contentDom", function() {
+				theme.applyToRichEditor(richEditor);
+			});
 		});
 
 		/* Tags */
@@ -184,6 +182,17 @@ var editor = {
 				});
 			});
 
+		/* File upload, local preview of the selected image */
+		$context.find("input.field.file").on("change", filePreview.update);
+		$context.find(".type-file input[type=checkbox][name$='[delete]']").on("change", function() {
+			filePreview.refresh($(this).closest(".fgrp"));
+		});
+
+		/* Range, show the current value */
+		$context.find("input.rangeInput").on("input change", function() {
+			$(this).siblings(".rangeValue").text(this.value);
+		});
+
 		/* Alias Id. */
 		//$(".aliasId").aliasIdFormat();
 		$context.find("input[type=text]").aliasIdFormat();
@@ -196,7 +205,7 @@ var editor = {
 		$context.find('.field.select option[value=""]').html(""); // Resolve bug of selectivity for empty options
 		$context.find('.field.select').selectivity({
 			allowClear: true,
-			placeholder: "Select option…"
+			placeholder: "Selecciona una opción…"
 		});
 
 		/* Related content */
@@ -219,7 +228,7 @@ var editor = {
 						var url = $edit.attr("href");
 						$wrapContent
 							.removeClass("hidden")
-							.html("<p class='result'>Loading...</p>");
+							.html("<p class='result'>Cargando…</p>");
 						$.get( url, {"v" : "ajax"})
 							.done(function(data) {
 								/* Get inner form and insert in gap */
@@ -265,8 +274,19 @@ var editor = {
 				});
 
 	},
+	markBusyOnSave : function() {
+		// The button is not disabled: its name/value must travel in the request
+		$("form").on("submit", function(e) {
+			var submitter = e.originalEvent && e.originalEvent.submitter;
+			if (submitter && $(submitter).is(".btn.publish") && !e.isDefaultPrevented()) {
+				$(submitter)
+					.addClass("is-busy")
+					.html("<span class='spin'></span> Guardando…");
+			}
+		});
+	},
 	confirmDelete : function(e) {
-		var bDelete = window.confirm("remove permanently this element?");
+		var bDelete = window.confirm("¿Eliminar este elemento de forma permanente?");
 		if(!bDelete) {
 			e.preventDefault();
 		}
@@ -331,8 +351,130 @@ var navigationHistory = {
 		navigationHistory.$historyMenu.attr("class", navigationHistory.status);
 	}
 }
+var theme = {
+	STORAGE_KEY : "acd-theme",
+	RICH_EDITOR_DARK_CLASS : "acd-dark",
+	init : function() {
+		if (window.CKEDITOR) {
+			CKEDITOR.addCss(
+				"body.acd-dark { background: #111827; color: #e7ecf6; }" +
+				"body.acd-dark a { color: #9db8ff; }"
+			);
+		}
+		$("#themeToggle").on("click", function() {
+			theme.set(theme.isDark() ? "light" : "dark");
+		});
+	},
+	isDark : function() {
+		return document.documentElement.getAttribute("data-theme") === "dark";
+	},
+	// The editing area of the rich text editor is an iframe: page styles do not reach it
+	applyToRichEditor : function(richEditor) {
+		if (!richEditor.document) {
+			return;
+		}
+		var body = richEditor.document.getBody();
+		if (theme.isDark()) {
+			body.addClass(theme.RICH_EDITOR_DARK_CLASS);
+		}
+		else {
+			body.removeClass(theme.RICH_EDITOR_DARK_CLASS);
+		}
+	},
+	set : function(name) {
+		if (name === "dark") {
+			document.documentElement.setAttribute("data-theme", "dark");
+		}
+		else {
+			document.documentElement.removeAttribute("data-theme");
+		}
+		if (window.CKEDITOR) {
+			$.each(CKEDITOR.instances, function(instanceName, richEditor) {
+				theme.applyToRichEditor(richEditor);
+			});
+		}
+		try {
+			localStorage.setItem(theme.STORAGE_KEY, name);
+		}
+		catch (e) {}
+	}
+};
+var toast = {
+	VISIBLE_TIME : 4000,
+	HIDE_TRANSITION_TIME : 300,
+	init : function() {
+		var $toast = $(".result.ok");
+		if ($toast.length === 0) {
+			return;
+		}
+		$toast.attr("role", "status");
+		window.setTimeout(function() {
+			$toast.addClass("is-hiding");
+			window.setTimeout(function() { $toast.remove(); }, toast.HIDE_TRANSITION_TIME);
+		}, toast.VISIBLE_TIME);
+	}
+};
+var filePreview = {
+	update : function() {
+		var input = this;
+		var file = input.files && input.files[0];
+
+		filePreview.clear(input);
+
+		if (file) {
+			var $preview = filePreview.build(input, file);
+			$(input).data("previewElement", $preview).before($preview);
+		}
+		filePreview.refresh($(input).closest(".fgrp"));
+	},
+	build : function(input, file) {
+		var $preview = $("<div class='file-preview local'></div>");
+		if (file.type.indexOf("image/") === 0) {
+			var objectUrl = URL.createObjectURL(file);
+			$(input).data("previewUrl", objectUrl);
+			$preview.append(
+				$("<img class='field preview'/>")
+					.attr({ src: objectUrl, alt: "Vista previa, " + file.name }),
+				" "
+			);
+		}
+		$preview.append(document.createTextNode(file.name), " ",
+			$("<span class='size'></span>").text(filePreview.humanSize(file.size)));
+		return $preview;
+	},
+	/* The saved file is hidden when it is going to be deleted or replaced */
+	refresh : function($field) {
+		var isMarkedToDelete = $field.find("input[type=checkbox][name$='[delete]']").prop("checked");
+		var hasNewFile = $field.find(".file-preview.local").length > 0;
+		$field.find(".file-preview").not(".local")
+			.toggleClass("hidden", isMarkedToDelete || hasNewFile);
+	},
+	clear : function(input) {
+		var previousUrl = $(input).data("previewUrl");
+		if (previousUrl) {
+			URL.revokeObjectURL(previousUrl);
+		}
+		var $previous = $(input).data("previewElement");
+		if ($previous) {
+			$previous.remove();
+		}
+		$(input).removeData("previewUrl previewElement");
+	},
+	humanSize : function(size) {
+		if (size >= 1 << 30) {
+			return (size / (1 << 30)).toFixed(2) + "GB";
+		}
+		if (size >= 1 << 20) {
+			return (size / (1 << 20)).toFixed(2) + "MB";
+		}
+		if (size >= 1 << 10) {
+			return (size / (1 << 10)).toFixed(2) + "KB";
+		}
+		return size + " bytes";
+	}
+};
 var isSupported = document.getElementById && document.getElementsByTagName;
 if (isSupported) {
-	document.documentElement.className = "js";
+	document.documentElement.classList.add("js");
 }
 $(document).ready(editor.init);

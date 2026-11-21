@@ -79,7 +79,7 @@ switch ($action) {
 
 		$skeletonOu = new BaseSkeleton();
 		$skeletonOu->setBodyClass('indexContent');
-		$skeletonOu->setHeadTitle('Content, list of contents type');
+		$skeletonOu->setHeadTitle('Contenidos');
 		$skeletonOu->setHeaderMenu($headerMenuOu->render());
 		$skeletonOu->setTools($toolsOu->render());
 		break;
@@ -130,13 +130,17 @@ switch ($action) {
 		$toolsOu->setRol($_SESSION['rol']);
 
 		$skeletonOu = new BaseSkeleton();
-		$skeletonOu->setBodyClass('editContent');
-		$skeletonOu->setHeadTitle('Manage elements of '.$id);
+		$skeletonOu->setBodyClass('listContent');
+		$skeletonOu->setHeadTitle($contentOu->structure->getName());
+		$skeletonOu->setBreadcrumb([
+			['label' => 'Contenidos', 'url' => 'content.php'],
+			['label' => $contentOu->structure->getName()]
+		]);
 		$skeletonOu->setHeaderMenu($headerMenuOu->render());
 		$skeletonOu->setTools($toolsOu->render());
 
 		if ($action == 'delete' && $bResult) {
-			$contentOu->setResultDesc('Done', 'ok');
+			$contentOu->setResultDesc('Contenido eliminado', 'ok');
 		}
 		break;
 	case 'new':
@@ -178,7 +182,12 @@ switch ($action) {
 
 		$skeletonOu = new BaseSkeleton();
 		$skeletonOu->setBodyClass('editContent');
-		$skeletonOu->setHeadTitle('New content ('.$structure->getName().')');
+		$skeletonOu->setHeadTitle('Nuevo contenido ('.$structure->getName().')');
+		$skeletonOu->setBreadcrumb([
+			['label' => 'Contenidos', 'url' => 'content.php'],
+			['label' => $structure->getName(), 'url' => 'content.php?a=list_contents&id='.urlencode($idStructureType)],
+			['label' => 'Nuevo contenido']
+		]);
 		$skeletonOu->setHeaderMenu($headerMenuOu->render());
 		$skeletonOu->setTools($toolsOu->render());
 		break;
@@ -293,7 +302,12 @@ switch ($action) {
 
 		$skeletonOu = new BaseSkeleton();
 		$skeletonOu->setBodyClass('editContent');
-		$skeletonOu->setHeadTitle('Manage content ('.$structure->getName().')');
+		$skeletonOu->setHeadTitle($content->getTitle().' ('.$structure->getName().')');
+		$skeletonOu->setBreadcrumb([
+			['label' => 'Contenidos', 'url' => 'content.php'],
+			['label' => $structure->getName(), 'url' => 'content.php?a=list_contents&id='.urlencode($idStructureType)],
+			['label' => $content->getTitle()]
+		]);
 		$skeletonOu->setHeaderMenu($headerMenuOu->render());
 		$skeletonOu->setTools($toolsOu->render());
 
@@ -306,7 +320,7 @@ switch ($action) {
 		}
 
 		if ($bResult) {
-			$contentOu->setResultDesc('Done', 'ok');
+			$contentOu->setResultDesc('Cambios guardados', 'ok');
 		}
 		break;
 	default:

@@ -89,13 +89,13 @@ class User
     {
         switch ($this->getView()) {
             case $this::VIEW_LIST:
-                return 'Users';
+                return 'Usuarios';
                 break;
             case $this::VIEW_DETAIL:
-                return 'User ' . $this->getContentUser()?->getId();
+                return 'Usuario ' . $this->getContentUser()?->getId();
                 break;
             case $this::VIEW_DETAIL_NEW:
-                return 'New user';
+                return 'Nuevo usuario';
                 break;
         }
     }

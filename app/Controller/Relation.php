@@ -75,7 +75,7 @@ class Relation
 	}
 	public function getTitle()
 	{
-		return 'Relations of ';
+		return 'Usado en · ';
 	}
 	// back button
 	private function initializeSessionNavigation()

@@ -75,7 +75,8 @@ switch ($action) {
 		$toolsOu->setLogin($_SESSION['login']);
 		$toolsOu->setRol($_SESSION['rol']);
 
-		$skeletonOu->setHeadTitle('New structure');
+		$skeletonOu->setHeadTitle('Nueva estructura');
+		$skeletonOu->setBreadcrumb([['label' => 'Estructuras', 'url' => 'index.php'], ['label' => 'Nueva estructura']]);
 		$skeletonOu->setHeaderMenu($headerMenuOu->render());
 		$skeletonOu->setTools($toolsOu->render());
 		break;
@@ -123,7 +124,8 @@ switch ($action) {
 		$toolsOu->setLogin($_SESSION['login']);
 		$toolsOu->setRol($_SESSION['rol']);
 
-		$skeletonOu->setHeadTitle('Edit structure '.$structure->getName());
+		$skeletonOu->setHeadTitle('Estructura '.$structure->getName());
+		$skeletonOu->setBreadcrumb([['label' => 'Estructuras', 'url' => 'index.php'], ['label' => $structure->getName()]]);
 		$skeletonOu->setHeaderMenu($headerMenuOu->render());
 		$skeletonOu->setTools($toolsOu->render());
 		break;
@@ -170,7 +172,8 @@ switch ($action) {
 		$toolsOu->setLogin($_SESSION['login']);
 		$toolsOu->setRol($_SESSION['rol']);
 
-		$skeletonOu->setHeadTitle('Clone structure '.$structure->getName());
+		$skeletonOu->setHeadTitle('Clonar estructura '.$structure->getName());
+		$skeletonOu->setBreadcrumb([['label' => 'Estructuras', 'url' => 'index.php'], ['label' => 'Clonar '.$structure->getName()]]);
 		$skeletonOu->setHeaderMenu($headerMenuOu->render());
 		$skeletonOu->setTools($toolsOu->render());
 		break;
@@ -198,7 +201,7 @@ switch ($action) {
 		$contentOu->setStructures($structures);
 
 		$skeletonOu->setBodyClass('index');
-		$skeletonOu->setHeadTitle('Manage structures');
+		$skeletonOu->setHeadTitle('Estructuras');
 		$skeletonOu->setHeaderMenu($headerMenuOu->render());
 		$skeletonOu->setTools($toolsOu->render());
 		break;
@@ -207,16 +210,16 @@ switch ($action) {
 $result = isset($_GET['r']) ? $_GET['r'] : '';
 switch ($result) {
 	case 'ok':
-		$contentOu->setResultDesc('Done', 'ok');
+		$contentOu->setResultDesc('Hecho', 'ok');
 		break;
 	case 'ko':
-		$contentOu->setResultDesc('<em>Error</em>, has not been able to process', 'fail');
+		$contentOu->setResultDesc('<em>Error</em>, no se ha podido procesar', 'fail');
 		break;
 	case 'kologin':
-		$contentOu->setResultDesc('<em>Error</em>, incorrect login or password', 'fail');
+		$contentOu->setResultDesc('Usuario o contraseña incorrectos', 'fail');
 		break;
 	case 'kologinzerouser':
-		$contentOu->setResultDesc('<em>Error</em>, user database empty or not available', 'fail');
+		$contentOu->setResultDesc('<em>Error</em>, la base de datos de usuarios está vacía o no disponible', 'fail');
 		break;
 }
 $skeletonOu->setContent($contentOu->render());

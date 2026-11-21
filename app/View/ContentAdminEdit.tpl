@@ -1,28 +1,22 @@
+<?php
+use Acd\View\Icon;
+use Acd\View\Badge;
+?>
 <main id="manageStructure">
-	<h2>Edit structure <em class="structure_name"><?=htmlspecialchars($structureName)?></em></h2>
-	<p class="result <?=$resultCode?>"><?=$resultDesc?></p>
 	<form action="do_process_structure.php" method="post">
-		<fieldset class="common">
-			<legend>Common</legend>
-			<div>
-				<label for="idStructure">Id:&nbsp;</label><input type="text" name="id" id="idStructure" value="<?=htmlspecialchars($structureId)?>" readonly="readonly"/>
+		<div class="ehead">
+			<div class="etitle">
+				<div class="etitleRow"><h2><?=htmlspecialchars($structureName)?></h2></div>
+				<div class="meta">Estructura · arrastra los campos para ordenarlos</div>
 			</div>
-			<div>
-				<label for="name">Name:&nbsp;</label><input type="text" name="name" id="name" value="<?=htmlspecialchars($structureName)?>" required="required"/>
+			<div class="acts actions">
+				<input type="hidden" name="a" value="<?=$actionValue?>"/>
+				<button type="submit" name="accion" value="save" class="btn pri publish"><?=Icon::svg('check')?> Guardar</button>
 			</div>
-			<div>
-				<?php
-				$options = '';
-				foreach ($storageTypes as $key => $value) {
-					$selected = $storage === $key ? ' selected="selected"' : '';
-					$disabled = $value['disabled'] ? ' disabled="disabled"' : '';
-					$options .= '<option value="'.htmlspecialchars($key).'"'.$selected.$disabled.'>'.htmlspecialchars($value['name']).'</option>';
-				}
-				?>
-				<label for="storage">Storage type:&nbsp;</label><select name="storage" id="storage" required="required"><?=$options?></select>
-			</div>
-		</fieldset>
-		<div>
+		</div>
+		<p class="result <?=$resultCode?>"><?=$resultDesc?></p>
+		<div class="ebody">
+			<div class="lcol">
 			<?php
 			$structure_fields = '';
 			$n = 0;
@@ -39,7 +33,7 @@
 						$selected = $key === $enumeratedSelected ? ' selected="selected"' : '';
 						$optionEnumerateSource .= '<option value="'.htmlspecialchars($key).'"'.$selected.'>'.htmlspecialchars($value).'</option>';
 					}
-					$selectEnumeratedSource = '<div><label for="field_'.$n.'_source">Source:&nbsp;</label> <select  name="field['.$n.'][source]" id="field_'.$n.'_source" class="source select">'.$optionEnumerateSource.'</select></div>';
+					$selectEnumeratedSource = '<div class="fgrp"><label for="field_'.$n.'_source">Origen de las opciones</label> <select  name="field['.$n.'][source]" id="field_'.$n.'_source" class="source select">'.$optionEnumerateSource.'</select></div>';
 				}
 				// Related contents can restrict structures asociated
 				$restrictedStructures = '';
@@ -55,8 +49,8 @@
 						$optionsRestristedStructures .= '<option value="'.htmlspecialchars($key).'"'.$selected.'>'.htmlspecialchars($value).'</option>';
 					}
 					$restrictedStructures = '
-						<div class="restricted-structures-wrap">
-							<label for="field_'.$n.'_restrictedStructures">Restrict to:&nbsp;</label>
+						<div class="fgrp restricted-structures-wrap">
+							<label for="field_'.$n.'_restrictedStructures">Restringir a las estructuras</label>
 							<select name="field['.$n.'][restrictedStructures][]" id="field_'.$n.'_restrictedStructures" multiple="multiple" class="field select">'.
 										$optionsRestristedStructures.'
 									</select>
@@ -64,57 +58,86 @@
 				}
 
 				$structure_fields .= '<li class="field">
-					<label for="field_'.$n.'_id">Id:&nbsp;</label>
-					<input type="text" name="field['.$n.'][id]" id="field_'.$n.'_id" value="'.htmlspecialchars($field->getId()).'"'.$lockId.' required="required" placeholder="Enter the field id"/>
-					<label for="field_'.$n.'_type">'.htmlspecialchars($fieldTypes[$field->getType()]).'</label>
-					<div>
-						<label for="field_'.$n.'_name">Description:&nbsp;</label>
-						<input type="text" name="field['.$n.'][name]" id="field_'.$n.'_name" value="'.htmlspecialchars($field->getName()).'" id="field_'.$n.'"/>
-						<input type="hidden" name="field['.$n.'][type]" value="'.htmlspecialchars($field->getType()).'"/>
-					</div>
-					'.$restrictedStructures
-					.$selectEnumeratedSource.'
-					<div class="delete">
-						<label for="delete_field_'.$n.'">Delete</label>
-						<input type="checkbox" name="field['.$n.'][delete]" value="1" id="delete_field_'.$n.'"/>
+					<div class="fieldDef">
+						<div class="fieldHead">
+							<span class="chip acc">'.htmlspecialchars(Badge::fieldTypeName($field->getType())).'</span>
+							<span class="delete">
+								<input type="checkbox" name="field['.$n.'][delete]" value="1" id="delete_field_'.$n.'"/>
+								<label for="delete_field_'.$n.'" class="inlineLabel">Eliminar</label>
+							</span>
+						</div>
+						<div class="two">
+							<div class="fgrp">
+								<label for="field_'.$n.'_id">Id</label>
+								<input type="text" name="field['.$n.'][id]" id="field_'.$n.'_id" value="'.htmlspecialchars($field->getId()).'"'.$lockId.' required="required" placeholder="Id del campo" class="mono"/>
+							</div>
+							<div class="fgrp">
+								<label for="field_'.$n.'_name">Descripción</label>
+								<input type="text" name="field['.$n.'][name]" id="field_'.$n.'_name" value="'.htmlspecialchars($field->getName()).'"/>
+								<input type="hidden" name="field['.$n.'][type]" value="'.htmlspecialchars($field->getType()).'"/>
+							</div>
+						</div>
+						'.$restrictedStructures
+						.$selectEnumeratedSource.'
 					</div>
 					</li>';
 				$n++;
 			}
 			?>
-			<fieldset class="fields">
-				<legend>Fields</legend>
+			<fieldset class="card ecard fields">
+				<legend><span class="bx"><?=Icon::svg('list')?></span>Campos<small><?=$n?> <?=$n === 1 ? 'campo' : 'campos'?></small></legend>
 				<ul class="items"><?=$structure_fields?></ul>
+				<?php if ($n === 0) { ?><p class="empty">Esta estructura todavía no tiene campos.</p><?php } ?>
 			</fieldset>
-		</div>
-		<div class="fields">
-			<?php
-			$field_types = '';
-			foreach ($fieldTypes as $key => $value) {
-				$field_types .= '<li>
-					<input type="radio" name="new_field" value="'.htmlspecialchars($key).'" id="field_'.$key.'"/>
-					<label for="field_'.$key.'">'.htmlspecialchars($value).'</label>
-					</li>';
-			}
-			?>
-			<fieldset>
-				<legend>Add new field</legend>
-				<ul><?=$field_types?></ul>
-				<div><input type="submit" name="accion" value="add" class="button add"/></div>
+			<fieldset class="card ecard fields newField">
+				<legend><span class="bx"><?=Icon::svg('plus')?></span>Añadir campo</legend>
+				<?php
+				$field_types = '';
+				foreach ($fieldTypes as $key => $value) {
+					if ($key === \Acd\Model\FieldDo::TYPE_LIST_MULTIPLE_STICKY) {
+						$typeName = $value;
+					}
+					else {
+						$typeName = ucfirst(Badge::fieldTypeName($key));
+					}
+					$field_types .= '<li>
+						<input type="radio" name="new_field" value="'.htmlspecialchars($key).'" id="field_'.$key.'"/>
+						<label for="field_'.$key.'">'.htmlspecialchars($typeName).'</label>
+						</li>';
+				}
+				?>
+				<ul class="typeChoices"><?=$field_types?></ul>
+				<div class="formActions"><button type="submit" name="accion" value="add" class="btn add"><?=Icon::svg('plus')?> Añadir</button></div>
 			</fieldset>
-		</div>
-		<div class="wrap-actions">
-			<div class="actions">
-				<input type="hidden" name="a" value="<?=$actionValue?>"/>
-				<input type="submit" name="accion" value="save" class="button publish"/>
+			</div>
+			<div class="rcol">
+				<fieldset class="card ecard common">
+					<legend><span class="bx"><?=Icon::svg('info')?></span>Datos comunes</legend>
+					<div class="fgrp">
+						<label for="idStructure">Id</label><input type="text" name="id" id="idStructure" value="<?=htmlspecialchars($structureId)?>" readonly="readonly" class="mono"/>
+					</div>
+					<div class="fgrp">
+						<label for="name">Nombre</label><input type="text" name="name" id="name" value="<?=htmlspecialchars($structureName)?>" required="required"/>
+					</div>
+					<div class="fgrp">
+						<?php
+						$options = '';
+						foreach ($storageTypes as $key => $value) {
+							$selected = $storage === $key ? ' selected="selected"' : '';
+							$disabled = $value['disabled'] ? ' disabled="disabled"' : '';
+							$options .= '<option value="'.htmlspecialchars($key).'"'.$selected.$disabled.'>'.htmlspecialchars($value['name']).'</option>';
+						}
+						?>
+						<label for="storage">Tipo de almacenamiento</label><select name="storage" id="storage" required="required"><?=$options?></select>
+					</div>
+				</fieldset>
 			</div>
 		</div>
 	</form>
 
-
-	<article class="dev_sample">
-		<h1>Examples for developer</h1>
-		<pre>
+	<details class="card ecard dev_sample">
+		<summary>Ejemplos para desarrolladores</summary>
+		<pre class="mono">
 			// Can use contentLoader->loadContents(...) to return ContentsDo collection with the 0:n ContentDo matching elements
 			// Can use contentLoader->loadContent(...) to return ContentDo object,  discret content ie. number in count query or null if matching is not done
 
@@ -177,5 +200,5 @@
 			// Manage pure data
 			var_dump($contentWithLevelOfDepth->tokenizeData());
 		</pre>
-	</article>
+	</details>
 </main>
