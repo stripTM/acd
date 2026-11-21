@@ -420,19 +420,23 @@ var filePreview = {
 
 		filePreview.clear(input);
 
-		if (!file || file.type.indexOf("image/") !== 0) {
+		if (!file) {
 			$savedPreview.removeClass("hidden");
 			return;
 		}
 
-		var objectUrl = URL.createObjectURL(file);
-		$(input).data("previewUrl", objectUrl);
-
-		var $img = $("<img class='field preview'/>")
-			.attr({ src: objectUrl, alt: "Vista previa, " + file.name });
-		var $preview = $("<div class='file-preview local'></div>")
-			.append($img, " ", document.createTextNode(file.name), " ",
-				$("<span class='size'></span>").text(filePreview.humanSize(file.size)));
+		var $preview = $("<div class='file-preview local'></div>");
+		if (file.type.indexOf("image/") === 0) {
+			var objectUrl = URL.createObjectURL(file);
+			$(input).data("previewUrl", objectUrl);
+			$preview.append(
+				$("<img class='field preview'/>")
+					.attr({ src: objectUrl, alt: "Vista previa, " + file.name }),
+				" "
+			);
+		}
+		$preview.append(document.createTextNode(file.name), " ",
+			$("<span class='size'></span>").text(filePreview.humanSize(file.size)));
 
 		$savedPreview.addClass("hidden");
 		$(input).data("previewElement", $preview).before($preview);
