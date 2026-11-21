@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="64"
+   height="64"
+   viewBox="0 0 64 64"
+   role="img"
+   aria-label="ACD"
+   version="1.1"
+   id="svg4"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <title
+     id="title1">ACD</title>
+  <defs
+     id="defs3">
+    <linearGradient
+       id="acdTile"
+       x1="0"
+       y1="0"
+       x2="64"
+       y2="64"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         stop-color="#2563eb"
+         id="stop1" />
+      <stop
+         offset="1"
+         stop-color="#7c3aed"
+         id="stop2" />
+    </linearGradient>
+    <filter
+       id="acdLift"
+       x="-0.090000004"
+       y="-0.36000001"
+       width="1.18"
+       height="1.9075">
+      <feGaussianBlur
+         in="SourceAlpha"
+         stdDeviation="1.2"
+         id="feGaussianBlur2" />
+      <feOffset
+         dy="1.5"
+         result="b"
+         id="feOffset2" />
+      <feFlood
+         flood-color="#1e1b4b"
+         flood-opacity=".35"
+         id="feFlood2" />
+      <feComposite
+         in2="b"
+         operator="in"
+         id="feComposite2" />
+      <feMerge
+         id="feMerge3">
+        <feMergeNode
+           id="feMergeNode2" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3" />
+      </feMerge>
+    </filter>
+  </defs>
+  <rect
+     width="64"
+     height="64"
+     rx="15"
+     fill="url(#acdTile)"
+     id="rect3"
+     x="0"
+     y="0"
+     style="fill:url(#acdTile)" />
+  <path
+     d="M 16,50 32,14 48,50"
+     fill="none"
+     stroke="#ffffff"
+     stroke-width="8.5"
+     stroke-linejoin="round"
+     stroke-linecap="round"
+     id="path3" />
+  <rect
+     x="22"
+     y="33"
+     width="32"
+     height="8"
+     rx="4"
+     fill="#67e8f9"
+     filter="url(#acdLift)"
+     id="rect4" />
+</svg>

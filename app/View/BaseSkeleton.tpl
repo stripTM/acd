@@ -18,6 +18,7 @@ $lastCrumb = count($crumbs) - 1;
 	<link rel="stylesheet" type="text/css" href="js/tag-it/jquery.tagit.css"/>
 	<link rel="stylesheet" type="text/css" href="js/selectivity/selectivity-full.min.css"/>
 	<link rel="stylesheet" type="text/css" href="style/main.css"/>
+	<link href="style/brand/acd-favicon.svg" type="image/svg+xml" rel="icon" />
 	<link href="style/icon_16.png" rel="icon" />
 	<link href="style/icon_128.png" sizes="128x128" rel="icon" />
 	<title><?=htmlspecialchars($headTitle)?></title>

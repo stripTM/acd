@@ -18,7 +18,7 @@ if ($isDeveloper) {
 $rolNames = ['developer' => 'Desarrollador', 'editor' => 'Editor'];
 ?>
 <aside id="tools" class="side rol-<?=htmlspecialchars($rol)?>">
-	<a href="content.php" class="logo"><span class="mk">ACD</span><span class="nm">ACD<small>Contenidos dinámicos</small></span></a>
+	<a href="content.php" class="logo"><img src="style/brand/acd-mark.svg" alt="" class="mk" width="34" height="34"/><span class="nm"><b>A</b>dministrador de<br/><b>C</b>ontenidos <b>D</b>inámicos</span></a>
 	<nav>
 		<?php
 		foreach ($navItems as [$url, $icon, $label, $isCurrent]) {
