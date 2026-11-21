@@ -184,6 +184,9 @@ var editor = {
 
 		/* File upload, local preview of the selected image */
 		$context.find("input.field.file").on("change", filePreview.update);
+		$context.find(".type-file input[type=checkbox][name$='[delete]']").on("change", function() {
+			filePreview.refresh($(this).closest(".fgrp"));
+		});
 
 		/* Range, show the current value */
 		$context.find("input.rangeInput").on("input change", function() {
@@ -414,17 +417,17 @@ var toast = {
 var filePreview = {
 	update : function() {
 		var input = this;
-		var $field = $(input).closest(".fgrp");
-		var $savedPreview = $field.find(".file-preview").not(".local");
 		var file = input.files && input.files[0];
 
 		filePreview.clear(input);
 
-		if (!file) {
-			$savedPreview.removeClass("hidden");
-			return;
+		if (file) {
+			var $preview = filePreview.build(input, file);
+			$(input).data("previewElement", $preview).before($preview);
 		}
-
+		filePreview.refresh($(input).closest(".fgrp"));
+	},
+	build : function(input, file) {
 		var $preview = $("<div class='file-preview local'></div>");
 		if (file.type.indexOf("image/") === 0) {
 			var objectUrl = URL.createObjectURL(file);
@@ -437,9 +440,14 @@ var filePreview = {
 		}
 		$preview.append(document.createTextNode(file.name), " ",
 			$("<span class='size'></span>").text(filePreview.humanSize(file.size)));
-
-		$savedPreview.addClass("hidden");
-		$(input).data("previewElement", $preview).before($preview);
+		return $preview;
+	},
+	/* The saved file is hidden when it is going to be deleted or replaced */
+	refresh : function($field) {
+		var isMarkedToDelete = $field.find("input[type=checkbox][name$='[delete]']").prop("checked");
+		var hasNewFile = $field.find(".file-preview.local").length > 0;
+		$field.find(".file-preview").not(".local")
+			.toggleClass("hidden", isMarkedToDelete || hasNewFile);
 	},
 	clear : function(input) {
 		var previousUrl = $(input).data("previewUrl");
