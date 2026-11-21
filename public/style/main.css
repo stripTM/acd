@@ -1254,6 +1254,9 @@ a.row {
 	font-size: 12px;
 	color: var(--muted);
 }
+.file-preview.hidden {
+	display: none;
+}
 .file-preview a {
 	color: var(--accentT);
 }

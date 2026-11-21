@@ -182,6 +182,9 @@ var editor = {
 				});
 			});
 
+		/* File upload, local preview of the selected image */
+		$context.find("input.field.file").on("change", filePreview.update);
+
 		/* Range, show the current value */
 		$context.find("input.rangeInput").on("input change", function() {
 			$(this).siblings(".rangeValue").text(this.value);
@@ -406,6 +409,56 @@ var toast = {
 			$toast.addClass("is-hiding");
 			window.setTimeout(function() { $toast.remove(); }, toast.HIDE_TRANSITION_TIME);
 		}, toast.VISIBLE_TIME);
+	}
+};
+var filePreview = {
+	update : function() {
+		var input = this;
+		var $field = $(input).closest(".fgrp");
+		var $savedPreview = $field.find(".file-preview").not(".local");
+		var file = input.files && input.files[0];
+
+		filePreview.clear(input);
+
+		if (!file || file.type.indexOf("image/") !== 0) {
+			$savedPreview.removeClass("hidden");
+			return;
+		}
+
+		var objectUrl = URL.createObjectURL(file);
+		$(input).data("previewUrl", objectUrl);
+
+		var $img = $("<img class='field preview'/>")
+			.attr({ src: objectUrl, alt: "Vista previa, " + file.name });
+		var $preview = $("<div class='file-preview local'></div>")
+			.append($img, " ", document.createTextNode(file.name), " ",
+				$("<span class='size'></span>").text(filePreview.humanSize(file.size)));
+
+		$savedPreview.addClass("hidden");
+		$(input).data("previewElement", $preview).before($preview);
+	},
+	clear : function(input) {
+		var previousUrl = $(input).data("previewUrl");
+		if (previousUrl) {
+			URL.revokeObjectURL(previousUrl);
+		}
+		var $previous = $(input).data("previewElement");
+		if ($previous) {
+			$previous.remove();
+		}
+		$(input).removeData("previewUrl previewElement");
+	},
+	humanSize : function(size) {
+		if (size >= 1 << 30) {
+			return (size / (1 << 30)).toFixed(2) + "GB";
+		}
+		if (size >= 1 << 20) {
+			return (size / (1 << 20)).toFixed(2) + "MB";
+		}
+		if (size >= 1 << 10) {
+			return (size / (1 << 10)).toFixed(2) + "KB";
+		}
+		return size + " bytes";
 	}
 };
 var isSupported = document.getElementById && document.getElementsByTagName;
