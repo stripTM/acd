@@ -1,6 +1,6 @@
 <main class="loginPage">
 	<form action="do_login.php" method="post" class="card form_login">
-		<div class="logo"><span class="mk">ACD</span><span class="nm">ACD<small>Contenidos dinámicos</small></span></div>
+		<div class="logo"><img src="style/brand/acd-mark.svg" alt="" class="mk" width="34" height="34"/><span class="nm"><b>A</b>dministrador de<br/><b>C</b>ontenidos <b>D</b>inámicos</span></div>
 		<h2 class="h">Iniciar sesión</h2>
 		<p class="result <?=$resultCode?>"><?=$resultDesc?></p>
 		<?php

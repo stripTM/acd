@@ -1,3 +1,5 @@
+<p align="center"><img src="public/style/brand/acd-logo.svg" alt="ACD · Administrador de Contenidos Dinámicos" width="320"/></p>
+
 # README #
 
 Autogestor de contenidos dinámicos (ACD)
