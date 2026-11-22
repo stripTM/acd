@@ -1,6 +1,7 @@
 /*
 ACD · hoja de estilos principal
-Todo el color sale de los tokens de :root; el tema oscuro solo redefine los tokens.
+Todo el color sale de los tokens de :root; el tema oscuro (según la preferencia del sistema) solo redefine los tokens.
+En las reglas oscuras, ":root:root" sube la especificidad para ganar a las skins de terceros (CKEditor se inyecta después).
 */
 :root {
 	--bg: #f5f7fb;
@@ -29,27 +30,29 @@ Todo el color sale de los tokens de :root; el tema oscuro solo redefine los toke
 	--fontMono: "JetBrains Mono", "Fira Code", ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace;
 	color-scheme: light;
 }
-:root[data-theme=dark] {
-	--bg: #0a0f1c;
-	--surface: #111827;
-	--surface2: #172034;
-	--border: #243049;
-	--borderStrong: #35435f;
-	--text: #e7ecf6;
-	--muted: #8e9ab2;
-	--accent: #6b93ff;
-	--accentS: #1a2748;
-	--accentT: #9db8ff;
-	--ok: #4ade80;
-	--okS: #12301f;
-	--warn: #fbbf24;
-	--warnS: #33280c;
-	--bad: #f87171;
-	--badS: #3a1515;
-	--grayS: #1c2538;
-	--shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 16px rgba(0, 0, 0, .25);
-	--shadowPop: 0 30px 80px rgba(0, 0, 0, .6);
-	color-scheme: dark;
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #0a0f1c;
+		--surface: #111827;
+		--surface2: #172034;
+		--border: #243049;
+		--borderStrong: #35435f;
+		--text: #e7ecf6;
+		--muted: #8e9ab2;
+		--accent: #6b93ff;
+		--accentS: #1a2748;
+		--accentT: #9db8ff;
+		--ok: #4ade80;
+		--okS: #12301f;
+		--warn: #fbbf24;
+		--warnS: #33280c;
+		--bad: #f87171;
+		--badS: #3a1515;
+		--grayS: #1c2538;
+		--shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 16px rgba(0, 0, 0, .25);
+		--shadowPop: 0 30px 80px rgba(0, 0, 0, .6);
+		color-scheme: dark;
+	}
 }
 
 /* ===== Base ===== */
@@ -304,9 +307,6 @@ a.nav.on {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-#themeToggle {
-	margin-left: auto;
-}
 .iconbtn,
 a.iconbtn {
 	width: 38px;
@@ -428,8 +428,10 @@ a.btn.pri {
 	color: #fff;
 	box-shadow: 0 4px 14px rgba(37, 99, 235, .35);
 }
-:root[data-theme=dark] .btn.pri {
-	color: #0a0f1c;
+@media (prefers-color-scheme: dark) {
+	:root:root .btn.pri {
+		color: #0a0f1c;
+	}
 }
 .btn.pri:hover {
 	filter: brightness(1.08);
@@ -577,9 +579,11 @@ a.button {
 	animation: toastIn .25s ease-out;
 	transition: opacity .3s, transform .3s;
 }
-:root[data-theme=dark] .result.ok {
-	background: #1e293b;
-	border: 1px solid var(--border);
+@media (prefers-color-scheme: dark) {
+	:root:root .result.ok {
+		background: #1e293b;
+		border: 1px solid var(--border);
+	}
 }
 .result.ok::before {
 	content: "";
@@ -1850,125 +1854,127 @@ input[type=text].selectivity-multiple-input {
 	color: var(--text);
 }
 /* datetimepicker */
-:root[data-theme=dark] .xdsoft_datetimepicker {
-	background: var(--surface);
-	border: 1px solid var(--border);
-	border-radius: 10px;
-	box-shadow: var(--shadowPop);
-	color: var(--text);
-}
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_label {
-	background-color: var(--surface);
-	color: var(--text);
-}
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_label > .xdsoft_select {
-	border: 1px solid var(--border);
-	background: var(--surface);
-}
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_label > .xdsoft_select > div > .xdsoft_option {
-	color: var(--text);
-}
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_label i,
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_prev,
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_next,
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_today_button {
-	filter: invert(1);
-}
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_calendar td,
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_calendar th {
-	background: var(--surface2);
-	border: 1px solid var(--border);
-	color: var(--text);
-}
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_calendar th {
-	background: var(--surface);
-	color: var(--muted);
-}
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_other_month {
-	color: var(--muted);
-}
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_today {
-	color: var(--accentT);
-}
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
-	border: 1px solid var(--border);
-}
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div {
-	background: var(--surface2);
-	border-top: 1px solid var(--border);
-	color: var(--text);
-}
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_default,
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_current,
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div.xdsoft_current,
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_label > .xdsoft_select > div > .xdsoft_option.xdsoft_current {
-	background: var(--accent);
-	box-shadow: none;
-	color: #0a0f1c;
-}
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_calendar td:hover,
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div:hover,
-:root[data-theme=dark] .xdsoft_datetimepicker .xdsoft_label > .xdsoft_select > div > .xdsoft_option:hover {
-	background: var(--accentT) !important;
-	color: #0a0f1c !important;
-}
-:root[data-theme=dark] .xdsoft_scrollbar > .xdsoft_scroller {
-	background: var(--borderStrong) !important;
-}
-/* CKEditor (the editing area is themed from main.js, it lives in an iframe) */
-:root[data-theme=dark] .cke_chrome {
-	border-color: var(--border);
-}
-:root[data-theme=dark] .cke_inner {
-	background: var(--surface);
-}
-:root[data-theme=dark] .cke_top,
-:root[data-theme=dark] .cke_bottom {
-	background: var(--surface2);
-	border-color: var(--border);
-	box-shadow: none;
-}
-:root[data-theme=dark] .cke_toolgroup,
-:root[data-theme=dark] a.cke_combo_button {
-	background: var(--surface);
-	border-color: var(--border);
-	box-shadow: none;
-}
-:root[data-theme=dark] a.cke_button_off:hover,
-:root[data-theme=dark] a.cke_button_off:focus,
-:root[data-theme=dark] a.cke_button_off:active,
-:root[data-theme=dark] a.cke_combo_button:hover,
-:root[data-theme=dark] a.cke_combo_button:focus {
-	background: var(--grayS);
-	box-shadow: none;
-}
-:root[data-theme=dark] a.cke_button_on {
-	background: var(--accentS);
-	box-shadow: none;
-}
-:root[data-theme=dark] .cke_button_icon {
-	filter: invert(1);
-}
-:root[data-theme=dark] .cke_combo_text,
-:root[data-theme=dark] .cke_button_label {
-	color: var(--text);
-	text-shadow: none;
-}
-:root[data-theme=dark] .cke_combo_arrow,
-:root[data-theme=dark] .cke_button_arrow {
-	border-top-color: var(--text);
-}
-:root[data-theme=dark] .cke_toolbar_separator {
-	background-color: var(--border);
-	box-shadow: none;
-}
-:root[data-theme=dark] .cke_resizer {
-	border-right-color: var(--muted);
-}
-/* Dropdown panels and dialogs render the skin inside their own frames */
-:root[data-theme=dark] .cke_panel,
-:root[data-theme=dark] .cke_dialog {
-	filter: invert(1) hue-rotate(180deg);
+@media (prefers-color-scheme: dark) {
+	:root:root .xdsoft_datetimepicker {
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 10px;
+		box-shadow: var(--shadowPop);
+		color: var(--text);
+	}
+	:root:root .xdsoft_datetimepicker .xdsoft_label {
+		background-color: var(--surface);
+		color: var(--text);
+	}
+	:root:root .xdsoft_datetimepicker .xdsoft_label > .xdsoft_select {
+		border: 1px solid var(--border);
+		background: var(--surface);
+	}
+	:root:root .xdsoft_datetimepicker .xdsoft_label > .xdsoft_select > div > .xdsoft_option {
+		color: var(--text);
+	}
+	:root:root .xdsoft_datetimepicker .xdsoft_label i,
+	:root:root .xdsoft_datetimepicker .xdsoft_prev,
+	:root:root .xdsoft_datetimepicker .xdsoft_next,
+	:root:root .xdsoft_datetimepicker .xdsoft_today_button {
+		filter: invert(1);
+	}
+	:root:root .xdsoft_datetimepicker .xdsoft_calendar td,
+	:root:root .xdsoft_datetimepicker .xdsoft_calendar th {
+		background: var(--surface2);
+		border: 1px solid var(--border);
+		color: var(--text);
+	}
+	:root:root .xdsoft_datetimepicker .xdsoft_calendar th {
+		background: var(--surface);
+		color: var(--muted);
+	}
+	:root:root .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_other_month {
+		color: var(--muted);
+	}
+	:root:root .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_today {
+		color: var(--accentT);
+	}
+	:root:root .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
+		border: 1px solid var(--border);
+	}
+	:root:root .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div {
+		background: var(--surface2);
+		border-top: 1px solid var(--border);
+		color: var(--text);
+	}
+	:root:root .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_default,
+	:root:root .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_current,
+	:root:root .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div.xdsoft_current,
+	:root:root .xdsoft_datetimepicker .xdsoft_label > .xdsoft_select > div > .xdsoft_option.xdsoft_current {
+		background: var(--accent);
+		box-shadow: none;
+		color: #0a0f1c;
+	}
+	:root:root .xdsoft_datetimepicker .xdsoft_calendar td:hover,
+	:root:root .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div:hover,
+	:root:root .xdsoft_datetimepicker .xdsoft_label > .xdsoft_select > div > .xdsoft_option:hover {
+		background: var(--accentT) !important;
+		color: #0a0f1c !important;
+	}
+	:root:root .xdsoft_scrollbar > .xdsoft_scroller {
+		background: var(--borderStrong) !important;
+	}
+	/* CKEditor (the editing area is themed from main.js, it lives in an iframe) */
+	:root:root .cke_chrome {
+		border-color: var(--border);
+	}
+	:root:root .cke_inner {
+		background: var(--surface);
+	}
+	:root:root .cke_top,
+	:root:root .cke_bottom {
+		background: var(--surface2);
+		border-color: var(--border);
+		box-shadow: none;
+	}
+	:root:root .cke_toolgroup,
+	:root:root a.cke_combo_button {
+		background: var(--surface);
+		border-color: var(--border);
+		box-shadow: none;
+	}
+	:root:root a.cke_button_off:hover,
+	:root:root a.cke_button_off:focus,
+	:root:root a.cke_button_off:active,
+	:root:root a.cke_combo_button:hover,
+	:root:root a.cke_combo_button:focus {
+		background: var(--grayS);
+		box-shadow: none;
+	}
+	:root:root a.cke_button_on {
+		background: var(--accentS);
+		box-shadow: none;
+	}
+	:root:root .cke_button_icon {
+		filter: invert(1);
+	}
+	:root:root .cke_combo_text,
+	:root:root .cke_button_label {
+		color: var(--text);
+		text-shadow: none;
+	}
+	:root:root .cke_combo_arrow,
+	:root:root .cke_button_arrow {
+		border-top-color: var(--text);
+	}
+	:root:root .cke_toolbar_separator {
+		background-color: var(--border);
+		box-shadow: none;
+	}
+	:root:root .cke_resizer {
+		border-right-color: var(--muted);
+	}
+	/* Dropdown panels and dialogs render the skin inside their own frames */
+	:root:root .cke_panel,
+	:root:root .cke_dialog {
+		filter: invert(1) hue-rotate(180deg);
+	}
 }
 
 /* Row hover backgrounds must not paint over the rounded corners of the card */

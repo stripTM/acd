@@ -351,9 +351,10 @@ var navigationHistory = {
 		navigationHistory.$historyMenu.attr("class", navigationHistory.status);
 	}
 }
+// The colour scheme follows the operating system / browser preference (prefers-color-scheme)
 var theme = {
-	STORAGE_KEY : "acd-theme",
 	RICH_EDITOR_DARK_CLASS : "acd-dark",
+	darkPreference : window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null,
 	init : function() {
 		if (window.CKEDITOR) {
 			CKEDITOR.addCss(
@@ -361,12 +362,26 @@ var theme = {
 				"body.acd-dark a { color: #9db8ff; }"
 			);
 		}
-		$("#themeToggle").on("click", function() {
-			theme.set(theme.isDark() ? "light" : "dark");
-		});
+		if (!theme.darkPreference) {
+			return;
+		}
+		if (theme.darkPreference.addEventListener) {
+			theme.darkPreference.addEventListener("change", theme.applyToAllRichEditors);
+		}
+		else {
+			// Safari < 14
+			theme.darkPreference.addListener(theme.applyToAllRichEditors);
+		}
 	},
 	isDark : function() {
-		return document.documentElement.getAttribute("data-theme") === "dark";
+		return theme.darkPreference !== null && theme.darkPreference.matches;
+	},
+	applyToAllRichEditors : function() {
+		if (window.CKEDITOR) {
+			$.each(CKEDITOR.instances, function(instanceName, richEditor) {
+				theme.applyToRichEditor(richEditor);
+			});
+		}
 	},
 	// The editing area of the rich text editor is an iframe: page styles do not reach it
 	applyToRichEditor : function(richEditor) {
@@ -380,23 +395,6 @@ var theme = {
 		else {
 			body.removeClass(theme.RICH_EDITOR_DARK_CLASS);
 		}
-	},
-	set : function(name) {
-		if (name === "dark") {
-			document.documentElement.setAttribute("data-theme", "dark");
-		}
-		else {
-			document.documentElement.removeAttribute("data-theme");
-		}
-		if (window.CKEDITOR) {
-			$.each(CKEDITOR.instances, function(instanceName, richEditor) {
-				theme.applyToRichEditor(richEditor);
-			});
-		}
-		try {
-			localStorage.setItem(theme.STORAGE_KEY, name);
-		}
-		catch (e) {}
 	}
 };
 var toast = {
