@@ -1,5 +1,4 @@
 <?php
-use Acd\View\Icon;
 
 $hasSidebar = trim($tools) !== '';
 $crumbs = (isset($breadcrumb) && $breadcrumb) ? $breadcrumb : [['label' => $headTitle]];
@@ -10,9 +9,6 @@ $lastCrumb = count($crumbs) - 1;
 <head>
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<script type="text/javascript">
-		try { if (localStorage.getItem("acd-theme") === "dark") document.documentElement.setAttribute("data-theme", "dark"); } catch (e) {}
-	</script>
 	<link rel="stylesheet" type="text/css" href="js/jquery-ui/jquery-ui.min.css"/>
 	<link rel="stylesheet" type="text/css" href="js/datetimepicker/jquery.datetimepicker.css"/>
 	<link rel="stylesheet" type="text/css" href="js/tag-it/jquery.tagit.css"/>
@@ -46,7 +42,6 @@ $lastCrumb = count($crumbs) - 1;
 				}
 				?>
 			</nav>
-			<button type="button" class="iconbtn" id="themeToggle" title="Cambiar entre tema claro y oscuro" aria-label="Cambiar tema"><?=Icon::svg('moon')?></button>
 		</header>
 		<?php
 		}

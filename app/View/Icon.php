@@ -10,7 +10,6 @@ class Icon {
 		'list' => '<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/>',
 		'users' => '<circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M17 11a3 3 0 100-6M22 21c0-3-2-5-5-5.5"/>',
 		'search' => '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
-		'moon' => '<path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/>',
 		'plus' => '<path d="M12 5v14M5 12h14"/>',
 		'left' => '<path d="M15 18l-6-6 6-6"/>',
 		'right' => '<path d="M9 18l6-6-6-6"/>',
